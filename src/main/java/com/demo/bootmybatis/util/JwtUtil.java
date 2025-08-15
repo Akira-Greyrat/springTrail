@@ -26,11 +26,21 @@ public class JwtUtil {
     private Long expiration;
 
     private SecretKey getSigningKey() {
-        // 如果secret长度不够，则使用随机生成的密钥
+        // 对于HS256算法，密钥必须至少256位（32字节）
+        // 如果配置的secret长度不够，则使用随机生成的安全密钥
         if (secret.length() < 32) {
+            System.out.println("Warning: Configured secret is too short, using auto-generated secure key");
             return Keys.secretKeyFor(SignatureAlgorithm.HS256);
         }
-        return Keys.hmacShaKeyFor(secret.getBytes());
+        // 确保密钥长度至少32字节
+        byte[] keyBytes = secret.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        if (keyBytes.length < 32) {
+            // 如果不够32字节，填充到32字节
+            byte[] paddedKey = new byte[32];
+            System.arraycopy(keyBytes, 0, paddedKey, 0, Math.min(keyBytes.length, 32));
+            return Keys.hmacShaKeyFor(paddedKey);
+        }
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     /**

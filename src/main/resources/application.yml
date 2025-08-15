@@ -1,6 +1,6 @@
 # JWT配置
 jwt:
-  secret: myVeryLongSecretKeyThatIsAtLeast32CharactersLong
+  secret: myVeryLongSecretKeyThatIsAtLeast32CharactersLongAndSecureForHS256Algorithm
   expiration: 86400000  # 24小时 (毫秒)
 
 # Spring Boot配置
