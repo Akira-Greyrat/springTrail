@@ -1,0 +1,14 @@
+# JWT配置
+jwt:
+  secret: myVeryLongSecretKeyThatIsAtLeast32CharactersLong
+  expiration: 86400000  # 24小时 (毫秒)
+
+# Spring Boot配置
+spring:
+  application:
+    name: boot-mybatis
+  
+# 日志配置
+logging:
+  level:
+    com.demo.bootmybatis: DEBUG
